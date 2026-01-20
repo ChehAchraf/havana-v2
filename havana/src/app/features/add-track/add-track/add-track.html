@@ -1,0 +1,64 @@
+<!-- Add Track Component -->
+<div class="bg-[#121212] min-h-full p-8 flex justify-center text-white">
+  <div class="w-full max-w-3xl">
+    <h2 class="text-2xl font-bold mb-6 text-white">Ajouter un titre</h2>
+
+    <form [formGroup]="trackForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          <label class="text-xs font-bold uppercase text-[#b3b3b3]">Titre</label>
+          <input type="text" placeholder="Titre de la chanson"
+            formControlName="title"
+            class="bg-[#2a2a2a] border-transparent focus:border-white focus:ring-0 rounded-sm p-3 text-sm placeholder-[#b3b3b3]">
+            @if (trackForm.get('title')?.touched && trackForm.get('title')?.invalid ){
+              <p class="text-red-500 font-light text-[12px]">Title is required and must be lower than 50 char </p>
+            }
+        </div>
+        <div class="flex flex-col gap-2">
+          <label class="text-xs font-bold uppercase text-[#b3b3b3]">Artiste</label>
+          <input type="text" placeholder="Nom de l'artiste"
+          formControlName="artist"
+            class="bg-[#2a2a2a] border-transparent focus:border-white focus:ring-0 rounded-sm p-3 text-sm placeholder-[#b3b3b3]">
+          @if (trackForm.get('artist')?.touched && trackForm.get('artist')?.invalid ){
+              <p class="text-red-500 font-light text-[12px]">artist is required and must be lower than 50 char </p>
+            }
+          </div>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="text-xs font-bold uppercase text-[#b3b3b3]">Description</label>
+        <textarea rows="3"
+        formControlName="description"
+          class="bg-[#2a2a2a] border-transparent focus:border-white focus:ring-0 rounded-sm p-3 text-sm placeholder-[#b3b3b3] resize-none"></textarea>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          <label class="text-xs font-bold uppercase text-[#b3b3b3]">Genre</label>
+          <select formControlName="genre" class="bg-[#2a2a2a] border-transparent focus:border-white focus:ring-0 rounded-sm p-3 text-sm">
+            <option>Pop</option>
+            <option>Rock</option>
+            <option>Rap</option>
+          </select>
+        </div>
+        <div class="flex flex-col gap-2 justify-end">
+          <input (change)="onFileSelected($event.target)" type="file" id="file" class="hidden">
+          <label for="file"
+            class="bg-[#2a2a2a] hover:bg-[#3E3E3E] text-white py-3 rounded-sm cursor-pointer text-center font-bold text-sm transition-colors">
+            Choisir un fichier
+          </label>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-4 pt-4">
+        <button type="button"
+          class="font-bold text-sm text-[#b3b3b3] hover:text-white uppercase tracking-widest">Annuler</button>
+        <button type="submit"
+          [disabled]="trackForm.invalid || !selectedFile || isSubmiting()"
+          class="bg-[#1DB954] hover:bg-[#1ed760] text-black font-bold py-3 px-8 rounded-full text-sm uppercase tracking-widest transform active:scale-95 transition-all">
+          Enregistrer
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

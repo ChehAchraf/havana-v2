@@ -1,0 +1,68 @@
+@if (audioService.currentTrack(); as track) {
+      
+      <div class="h-full flex items-center justify-between px-4">
+        
+        <!-- Left: Current Song Info -->
+        <div class="flex items-center gap-4 w-[30%]">
+           <div class="w-14 h-14 bg-gray-800 rounded flex items-center justify-center">
+             <i class="fas fa-music text-gray-400"></i>
+           </div>
+           <div>
+             <div class="text-white text-sm font-semibold">{{ track.title }}</div>
+             <div class="text-xs text-gray-400">{{ track.artist }}</div>
+           </div>
+        </div>
+
+        <!-- Center: Controls and Progress -->
+        <div class="flex flex-col items-center gap-2 w-[40%]">
+           <!-- Control Buttons -->
+           <div class="flex items-center gap-6 mb-1">
+              <button class="text-gray-400 hover:text-white transition-colors">
+                <i class="fas fa-step-backward text-lg"></i>
+              </button>
+              
+              <button (click)="audioService.toggle()" 
+                     class="bg-white rounded-full p-3 hover:scale-105 transition-transform flex items-center justify-center">
+                 @if(audioService.isPlaying()) {
+                    <i class="fas fa-pause text-black text-lg"></i>
+                 } @else {
+                    <i class="fas fa-play text-black text-lg pl-0.5"></i>
+                 }
+              </button>
+
+              <button class="text-gray-400 hover:text-white transition-colors">
+                <i class="fas fa-step-forward text-lg"></i>
+              </button>
+           </div>
+
+           <div class="w-full flex items-center gap-3 text-xs font-medium">
+              <span class="text-gray-400 w-10 text-right tabular-nums">
+                 {{ formatTime(audioService.currentTime()) }}
+              </span>
+
+              <input type="range"
+                     class="flex-1 h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-green-500 hover:accent-green-400"
+                     min="0" 
+                     [max]="audioService.duration()" 
+                     [value]="audioService.currentTime()" 
+                     (input)="onPregress($event)">
+
+              <span class="text-gray-400 w-10 tabular-nums">
+                 {{ formatTime(audioService.duration()) }}
+              </span>
+           </div>
+        </div>
+
+        <div class="w-[30%] flex justify-end items-center gap-4">
+           <button class="text-gray-400 hover:text-white transition-colors">
+             <i class="fas fa-volume-up"></i>
+           </button>
+        </div>
+
+      </div>
+
+    } @else {
+       <div class="h-full flex items-center justify-center text-gray-500 text-sm">
+         Select a song to play
+       </div>
+    }

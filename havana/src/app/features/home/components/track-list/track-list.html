@@ -1,0 +1,112 @@
+<div class="sticky top-0 bg-[#121212]/95 backdrop-blur-md z-10 border-b border-[#282828] mb-4 pb-2">
+    <div class="grid grid-cols-12 text-[#b3b3b3] text-sm font-medium uppercase tracking-wider px-4 py-2">
+        <div class="col-span-1 text-center">#</div>
+        <div class="col-span-5">Titre</div>
+        <div class="col-span-4">Artiste</div>
+        <div class="col-span-2 text-right flex justify-end">
+            <i class="far fa-clock"></i>
+        </div>
+    </div>
+</div>
+
+<div class="flex flex-col min-h-[400px]"> @for (track of filteredTracks(); track track.id) {
+    <div (click)="playTrack(track)"
+        class="group grid grid-cols-12 items-center px-4 py-3 rounded-md hover:bg-white/10 transition-colors duration-200 cursor-pointer text-sm text-[#b3b3b3] hover:text-white border-b border-transparent hover:border-[#282828]">
+
+        <div class="col-span-1 relative flex justify-center text-base">
+            <span class="group-hover:hidden font-mono text-[#b3b3b3]"> {{track.id}} </span>
+
+            <button class="hidden group-hover:block text-white">
+                <i class="fas fa-play text-xs"></i>
+            </button>
+        </div>
+
+        <div class="col-span-5 flex items-center gap-4">
+            <div class="relative w-10 h-10 shadow-sm flex-shrink-0 group-hover:scale-105 transition-transform">
+                @if(track.cover) {
+                <img [src]="track.cover" class="w-full h-full object-cover rounded" alt="cover">
+                } @else {
+                <div class="w-full h-full bg-[#282828] flex items-center justify-center rounded text-gray-500">
+                    <i class="fas fa-music"></i>
+                </div>
+                }
+            </div>
+
+            <div class="flex flex-col overflow-hidden">
+                <span class="text-white font-bold text-base truncate"> {{track.title}} </span>
+                <span class="text-[#b3b3b3] text-sm group-hover:text-white transition-colors truncate">
+                    {{track.music_category}} </span>
+            </div>
+        </div>
+
+        <div class="col-span-4 flex items-center hover:underline font-medium truncate pr-4">
+            {{track.artist}}
+        </div>
+
+        <div (click)="delete(track.id, $event)" class="underline hover:text-red-400 w-[8px]">
+            <i class="fas fa-trash-alt"></i>
+        </div>
+        <button (click)="openEditModal(track, $event)" class="text-blue-400 hover:text-blue-300 p-2 mr-2 transition"
+            title="Modifier">
+            <i class="fas fa-pen"></i>
+        </button>
+
+        <div class="col-span-2 text-right font-mono tabular-nums">
+            {{ (track.song_duration ?? 0) | durationFormatPipe }}
+        </div>
+    </div>
+    } @empty {
+    <div class="flex flex-col items-center justify-center py-20 text-gray-500">
+        <i class="fas fa-music text-4xl mb-4 opacity-50"></i>
+        <p>Aucune musique trouvée.</p>
+    </div>
+    }
+
+    @if (totalPages() > 1) {
+    <div class="flex justify-end items-center gap-6 mt-4 px-4 py-4 border-t border-[#282828]">
+
+        <span class="text-xs text-[#b3b3b3] font-medium">
+            Page {{ currentPage() }} sur {{ totalPages() }}
+        </span>
+
+        <div class="flex gap-3">
+            <button (click)="prevPage()" [disabled]="currentPage() === 1"
+                class="w-8 h-8 flex items-center justify-center rounded-full bg-black/40 text-white hover:bg-[#3E3E3E] disabled:opacity-30 disabled:cursor-not-allowed transition duration-200">
+                <i class="fas fa-chevron-left text-xs"></i>
+            </button>
+
+            <button (click)="nextPage()" [disabled]="currentPage() === totalPages()"
+                class="w-8 h-8 flex items-center justify-center rounded-full bg-black/40 text-white hover:bg-[#3E3E3E] disabled:opacity-30 disabled:cursor-not-allowed transition duration-200">
+                <i class="fas fa-chevron-right text-xs"></i>
+            </button>
+        </div>
+
+    </div>
+    }
+</div>
+@if (isEditModalOpen) {
+  <div class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 backdrop-blur-sm">
+    
+    <div class="bg-[#181818] p-6 rounded-lg w-full max-w-md border border-[#282828] shadow-2xl">
+      <h3 class="text-xl font-bold text-white mb-4">Modifier la piste</h3>
+      
+      <div class="space-y-4">
+        <div>
+          <label class="block text-gray-400 text-sm mb-1">Titre</label>
+          <input [(ngModel)]="editingTrack.title" class="w-full bg-[#333] text-white p-2 rounded focus:outline-none focus:ring-1 focus:ring-green-500">
+        </div>
+        
+        <div>
+          <label class="block text-gray-400 text-sm mb-1">Artiste</label>
+          <input [(ngModel)]="editingTrack.artist" class="w-full bg-[#333] text-white p-2 rounded focus:outline-none focus:ring-1 focus:ring-green-500">
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 mt-6">
+        <button (click)="closeEditModal()" class="px-4 py-2 text-gray-300 hover:text-white transition">Annuler</button>
+        <button (click)="saveEdit()" class="px-4 py-2 bg-green-500 text-black font-bold rounded hover:bg-green-400 transition">Enregistrer</button>
+      </div>
+
+    </div>
+  </div>
+}

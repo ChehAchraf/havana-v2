@@ -1,0 +1,90 @@
+.add-track-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #f9f9f9; /* رمادي خفيف */
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #555;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+/* ستايل خاص للرسائل */
+.error {
+  color: #dc2626; /* أحمر */
+  font-size: 0.85rem;
+  margin-top: 4px;
+  display: block;
+}
+
+.alert-error {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
+.success-info {
+  background: #dcfce7;
+  color: #166534;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
+/* الأزرار */
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 2rem;
+}
+
+.btn-save {
+  flex: 2;
+  background: #2563eb; /* أزرق */
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-save:disabled {
+  background: #93c5fd;
+  cursor: not-allowed;
+}
+
+.btn-cancel {
+  flex: 1;
+  background: transparent;
+  border: 1px solid #ccc;
+  color: #555;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}

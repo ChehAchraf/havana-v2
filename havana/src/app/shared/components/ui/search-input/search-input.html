@@ -1,0 +1,12 @@
+<div class="relative w-full max-w-[400px]">
+  <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+    <ng-icon name="heroMagnifyingGlass" class="text-gray-400" size="20px"></ng-icon>
+  </div>
+
+  <input
+    type="text"
+    placeholder="Que souhaitez-vous écouter ?"
+    (input)="onSearch($event)"
+    class="w-full bg-[#242424] text-white placeholder-gray-400 text-sm rounded-full py-3.5 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-white transition-all hover:bg-[#2a2a2a]"
+  >
+</div>
