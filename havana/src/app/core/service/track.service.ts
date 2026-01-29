@@ -1,85 +1,51 @@
-import {computed, inject, Injectable, signal} from '@angular/core';
-import {StorageService} from './storage.service';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import {Track} from '../models/track.model';
 
 @Injectable({
     providedIn: 'root',
 })
-
 export class TrackService {
 
-    private storage = inject(StorageService);
+    private http = inject(HttpClient);
 
+    private apiUrl = 'http://localhost:8080/api/tracks';
 
-    tracks = signal<Track[]>([]);
-    searchQuery = signal<string>('');
-    isLoading = signal<boolean>(true);
-    error = signal<string | null>(null);
+    getAllTracks(search: string, page: number): Observable<any> {
+        let params = new HttpParams()
+            .set('page', page.toString())
+            .set('size', '6');
 
-    constructor() {
-        this.loadTracks();
-    }
-
-    async loadTracks() {
-        this.isLoading.set(true);
-        try {
-            const data = await this.storage.getAllTracks();
-            this.tracks.set(data);
-
-        } catch (error) {
-            this.error.set('Failed to load all tracks');
-            console.log(error)
-        } finally {
-            this.isLoading.set(false);
+        if (search) {
+            params = params.set('search', search);
         }
+
+        return this.http.get<any>(this.apiUrl, { params });
     }
 
-    async addTrack(track: Track) {
-        this.isLoading.set(true)
-        try {
-            const id = await this.storage.addTrack(track);
-            const newTrack = {...track, id};
-            this.tracks.update(currentList => [...currentList, newTrack]);
-        } catch (error) {
-            this.error.set("could not save the track")
-        } finally {
-            this.isLoading.set(false);
+    saveTrack(trackData: any, audioFile: File, coverFile?: File): Observable<Track> {
+        const formData = new FormData();
+
+        formData.append('track', new Blob([JSON.stringify(trackData)], {
+            type: 'application/json'
+        }));
+
+        formData.append('audioFile', audioFile);
+
+        if (coverFile) {
+            formData.append('coverFile', coverFile);
         }
+
+        return this.http.post<Track>(this.apiUrl, formData);
     }
 
-    async updateTrack(updatedTrack: Track) {
-        try {
-            await this.storage.updateTrack(updatedTrack);
-
-            this.tracks.update(currentList => {
-                return currentList.map(track => {
-                    if (track.id === updatedTrack.id) {
-                        return updatedTrack;
-                    }
-                    return track;
-                })
-            })
-        } catch (error) {
-            this.error.set("there was an error ")
-        }
+    deleteTrack(id: number): Observable<void> {
+        return this.http.delete<void>(`${this.apiUrl}/${id}`);
     }
 
-    async removeTrack(id: number) {
-        try {
-            await this.storage.deleteTrack(id);
-            this.tracks.update(currentList =>
-                currentList.filter(track => track.id !== id)
-            );
-        } catch (error) {
-            this.error.set(`error deleting the track with the id : ${id}`)
-        } finally {
-            this.isLoading.set(false);
-        }
+    updateTrack(id: number, trackData: any): Observable<Track> {
+
+        return new Observable();
     }
-
-    setSearchQuery(query: string) {
-        this.searchQuery.set(query);
-    }
-
-
 }
