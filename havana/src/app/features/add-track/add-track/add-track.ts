@@ -79,10 +79,16 @@ export class AddTrackComponent {
       createdAt: new Date()
     };
 
-    await this.trackService.addTrack(newTrack);
-
-    this.isSubmiting.set(false);
-    this.router.navigate(['/home']);
+    this.trackService.addTrack(newTrack).subscribe({
+      next: () => {
+        this.isSubmiting.set(false);
+        this.router.navigate(['/home']);
+      },
+      error: (err) => {
+        console.error('Error adding track', err);
+        this.isSubmiting.set(false);
+      }
+    });
   }
 
 }

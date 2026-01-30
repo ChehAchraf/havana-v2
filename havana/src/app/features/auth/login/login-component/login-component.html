@@ -1,0 +1,52 @@
+<div class="min-h-screen flex flex-col items-center justify-center bg-black text-white px-4 font-sans">
+
+    <div class="mb-8 text-center animate-fade-in">
+        <div class="w-16 h-16 bg-[#121212] rounded-full flex items-center justify-center mx-auto mb-4 border border-[#282828]">
+            <i class="fas fa-music text-green-500 text-2xl"></i>
+        </div>
+        <h1 class="text-4xl font-bold tracking-tighter">
+            Havana<span class="text-green-500">Stream</span>
+        </h1>
+    </div>
+
+    <div class="bg-[#121212] p-8 rounded-lg w-full max-w-[400px] border border-[#282828] shadow-2xl">
+        <h2 class="text-2xl font-bold mb-8 text-center tracking-wide">Se connecter</h2>
+
+        <form class="space-y-4">
+            <div class="space-y-1">
+                <label class="text-xs font-bold text-[#b3b3b3] uppercase tracking-wider">Email</label>
+                <input
+                    type="email"
+                    placeholder="Ex: user@havana.com"
+                    class="w-full bg-[#2a2a2a] text-white p-3 rounded-[4px] border border-transparent focus:border-white focus:bg-[#333] outline-none transition duration-200 placeholder-gray-500"
+                >
+            </div>
+
+            <div class="space-y-1">
+                <label class="text-xs font-bold text-[#b3b3b3] uppercase tracking-wider">Mot de passe</label>
+                <input
+                    type="password"
+                    placeholder="••••••••"
+                    class="w-full bg-[#2a2a2a] text-white p-3 rounded-[4px] border border-transparent focus:border-white focus:bg-[#333] outline-none transition duration-200 placeholder-gray-500"
+                >
+            </div>
+
+            <button
+                type="button"
+                class="w-full bg-green-500 text-black font-bold py-3.5 rounded-full hover:bg-green-400 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 mt-6 uppercase tracking-widest text-sm shadow-lg shadow-green-500/20">
+                Connexion
+            </button>
+        </form>
+
+        <div class="my-6 border-t border-[#282828]"></div>
+
+        <div class="text-center">
+            <p class="text-[#b3b3b3] text-sm mb-2">Vous n'avez pas de compte ?</p>
+            <a routerLink="/register" class="text-white hover:text-green-500 font-bold uppercase text-xs tracking-widest hover:underline cursor-pointer transition">
+                S'inscrire sur Havana
+            </a>
+        </div>
+    </div>
+
+    <p class="mt-8 text-[#535353] text-xs">© 2026 Havana Stream Project.</p>
+</div>

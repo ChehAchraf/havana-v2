@@ -40,7 +40,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email; // Using email as the unique identifier for login
+        return email;
     }
 
     @Override

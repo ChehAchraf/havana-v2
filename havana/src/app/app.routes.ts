@@ -1,10 +1,26 @@
 import { Routes } from '@angular/router';
+import {MainLayoutComponent} from './core/layout/main-layout-component/main-layout-component';
+import {TrackList} from './features/home/components/track-list/track-list';
 
 export const routes: Routes = [
     {
-        path : '',
-        redirectTo:'home',
-        pathMatch:'full'
+      path: "login",
+      loadComponent : ()=>import("./features/auth/login/login-component/login-component")
+          .then((c)=>c.LoginComponent)
+    },
+    {
+      path:"register",
+      loadComponent:    ()=> import("./features/auth/register/register-component/register-component")
+          .then((c)=>c.RegisterComponent)
+    },
+    {
+        path: '',
+        component: MainLayoutComponent, 
+        canActivate: [],    
+        children: [
+            { path: '', component: TrackList }, 
+            // { path: 'favorites', component: FavoritesComponent }, 
+        ]
     },
 
     {
@@ -16,5 +32,9 @@ export const routes: Routes = [
         path: "add-track",
         loadComponent: () => import('./features/add-track/add-track/add-track')
             .then((c) => c.AddTrackComponent)
+    },
+    {
+        path:"**",
+        redirectTo:""
     }
 ];

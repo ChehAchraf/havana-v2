@@ -1,6 +1,5 @@
-import {Component, inject} from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
-import {TrackService} from '../../../../core/service/track.service';
 
 @Component({
   selector: 'app-search-input',
@@ -10,11 +9,11 @@ import {TrackService} from '../../../../core/service/track.service';
 })
 export class SearchInput {
 
-    private trackService = inject(TrackService);
+  @Output() search = new EventEmitter<string>();
 
-    onSearch(event: any) {
-        const value = event.target.value;
-        this.trackService.setSearchQuery(value);
-    }
+  onSearch(event: any) {
+    const value = event.target.value;
+    this.search.emit(value);
+  }
 
 }

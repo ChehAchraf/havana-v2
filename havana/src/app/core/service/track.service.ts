@@ -24,6 +24,19 @@ export class TrackService {
         return this.http.get<any>(this.apiUrl, { params });
     }
 
+    addTrack(track: Track): Observable<Track> {
+        const audioFile = track.file as File;
+
+        const { file, ...trackData } = track;
+
+        let coverFile: File | undefined = undefined;
+        if (track.cover && track.cover instanceof File) {
+             coverFile = track.cover;
+        }
+
+        return this.saveTrack(trackData, audioFile, coverFile);
+    }
+
     saveTrack(trackData: any, audioFile: File, coverFile?: File): Observable<Track> {
         const formData = new FormData();
 
