@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import {MainLayoutComponent} from './core/layout/main-layout-component/main-layout-component';
 import {TrackList} from './features/home/components/track-list/track-list';
+import {authGuard} from './core/guards/auth.guard';
 
 export const routes: Routes = [
     {
@@ -15,11 +16,11 @@ export const routes: Routes = [
     },
     {
         path: '',
-        component: MainLayoutComponent, 
-        canActivate: [],    
+        component: MainLayoutComponent,
+        canActivate: [authGuard],
         children: [
-            { path: '', component: TrackList }, 
-            // { path: 'favorites', component: FavoritesComponent }, 
+            { path: '', component: TrackList },
+            // { path: 'favorites', component: FavoritesComponent },
         ]
     },
 
