@@ -31,6 +31,7 @@ export const routes: Routes = [
     },
     {
         path: "add-track",
+        canActivate: [authGuard],
         loadComponent: () => import('./features/add-track/add-track/add-track')
             .then((c) => c.AddTrackComponent)
     },

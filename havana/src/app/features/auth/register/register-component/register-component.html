@@ -9,45 +9,51 @@
 
     <div class="bg-[#121212] p-8 rounded-lg w-full max-w-[400px] border border-[#282828] shadow-2xl">
 
-        <form class="space-y-4">
+        <!-- Error Message -->
+        @if (error$ | async; as error) {
+        <div class="mb-4 p-3 bg-red-500/20 border border-red-500 rounded text-red-200 text-sm text-center">
+            {{ error }}
+        </div>
+        }
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
             <div class="space-y-1">
                 <label class="text-xs font-bold text-[#b3b3b3] uppercase tracking-wider">Nom complet</label>
-                <input
-                    type="text"
-                    placeholder="Comment doit-on vous appeler ?"
+                <input type="text" formControlName="username" placeholder="Comment doit-on vous appeler ?"
                     class="w-full bg-[#2a2a2a] text-white p-3 rounded-[4px] border border-transparent focus:border-white focus:bg-[#333] outline-none transition duration-200 placeholder-gray-500"
-                >
+                    [class.border-red-500]="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
             </div>
 
             <div class="space-y-1">
                 <label class="text-xs font-bold text-[#b3b3b3] uppercase tracking-wider">Email</label>
-                <input
-                    type="email"
-                    placeholder="Ex: user@havana.com"
+                <input type="email" formControlName="email" placeholder="Ex: user@havana.com"
                     class="w-full bg-[#2a2a2a] text-white p-3 rounded-[4px] border border-transparent focus:border-white focus:bg-[#333] outline-none transition duration-200 placeholder-gray-500"
-                >
+                    [class.border-red-500]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
             </div>
 
             <div class="space-y-1">
                 <label class="text-xs font-bold text-[#b3b3b3] uppercase tracking-wider">Mot de passe</label>
-                <input
-                    type="password"
-                    placeholder="Créez un mot de passe fort"
+                <input type="password" formControlName="password" placeholder="Créez un mot de passe fort"
                     class="w-full bg-[#2a2a2a] text-white p-3 rounded-[4px] border border-transparent focus:border-white focus:bg-[#333] outline-none transition duration-200 placeholder-gray-500"
-                >
+                    [class.border-red-500]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
             </div>
 
             <div class="flex items-center gap-2 mt-4">
-                <input type="checkbox" id="terms" class="accent-green-500 w-4 h-4 cursor-pointer">
-                <label for="terms" class="text-xs text-[#b3b3b3] cursor-pointer">
+                <input type="checkbox" id="terms" formControlName="terms"
+                    class="accent-green-500 w-4 h-4 cursor-pointer">
+                <label for="terms" class="text-xs text-[#b3b3b3] cursor-pointer"
+                    [class.text-red-500]="registerForm.get('terms')?.invalid && registerForm.get('terms')?.touched">
                     J'accepte les conditions d'utilisation.
                 </label>
             </div>
 
-            <button
-                type="button"
-                class="w-full bg-green-500 text-black font-bold py-3.5 rounded-full hover:bg-green-400 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 mt-6 uppercase tracking-widest text-sm shadow-lg shadow-green-500/20">
+            <button type="submit" [disabled]="registerForm.invalid || (loading$ | async)"
+                class="w-full bg-green-500 text-black font-bold py-3.5 rounded-full hover:bg-green-400 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 mt-6 uppercase tracking-widest text-sm shadow-lg shadow-green-500/20 disabled:opacity-50 disabled:cursor-not-allowed">
+                @if (loading$ | async) {
+                <span class="animate-pulse">Inscription...</span>
+                } @else {
                 S'inscrire
+                }
             </button>
         </form>
 
@@ -55,7 +61,8 @@
 
         <div class="text-center">
             <p class="text-[#b3b3b3] text-sm mb-2">Vous avez déjà un compte ?</p>
-            <a routerLink="/login" class="text-white hover:text-green-500 font-bold uppercase text-xs tracking-widest hover:underline cursor-pointer transition">
+            <a routerLink="/login"
+                class="text-white hover:text-green-500 font-bold uppercase text-xs tracking-widest hover:underline cursor-pointer transition">
                 Se connecter
             </a>
         </div>
