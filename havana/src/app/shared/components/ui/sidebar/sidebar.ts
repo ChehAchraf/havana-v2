@@ -8,5 +8,11 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './sidebar.css',
 })
 export class Sidebar {
+    isAdmin : boolean = false;
 
+    constructor() {
+        if (typeof localStorage !== 'undefined'){
+            this.isAdmin = localStorage.getItem('role') === 'ROLE_ADMIN';
+        }
+    }
 }

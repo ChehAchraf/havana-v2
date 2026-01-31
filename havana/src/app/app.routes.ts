@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import {MainLayoutComponent} from './core/layout/main-layout-component/main-layout-component';
 import {TrackList} from './features/home/components/track-list/track-list';
 import {authGuard} from './core/guards/auth.guard';
+import {adminGuard} from './core/guards/admin.guard';
 
 export const routes: Routes = [
     {
@@ -20,7 +21,12 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
             { path: '', component: TrackList },
-            // { path: 'favorites', component: FavoritesComponent },
+            {
+                path: "add-track",
+                canActivate: [adminGuard],
+                loadComponent: () => import('./features/add-track/add-track/add-track')
+                    .then((c) => c.AddTrackComponent)
+            },
         ]
     },
 
@@ -29,12 +35,7 @@ export const routes: Routes = [
         , loadComponent: () => import('./features/home/home')
             .then((c) => c.Home)
     },
-    {
-        path: "add-track",
-        canActivate: [authGuard],
-        loadComponent: () => import('./features/add-track/add-track/add-track')
-            .then((c) => c.AddTrackComponent)
-    },
+
     {
         path:"**",
         redirectTo:""

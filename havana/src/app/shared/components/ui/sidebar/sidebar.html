@@ -1,41 +1,43 @@
 <nav class="flex flex-col h-full bg-black p-6 gap-6">
-  <!-- Logo -->
-  <div class="mb-2">
-    <h1 class="text-2xl font-bold tracking-tighter text-white">MusicStream</h1>
-  </div>
-
-  <!-- Main Navigation -->
-  <div class="flex flex-col gap-4 bg-[#121212] p-4 rounded-lg">
-    <a routerLink="/home" routerLinkActive="text-white brightness-125"
-      class="flex items-center gap-4 text-[#b3b3b3] hover:text-white transition-colors duration-200 font-bold text-base">
-      <span>Accueil</span>
-    </a>
-    
-    <a routerLink="/add-track" routerLinkActive="text-white brightness-125"
-      class="flex items-center gap-4 text-[#b3b3b3] hover:text-white transition-colors duration-200 font-bold text-base">
-      <span>add a track</span>
-    </a>
-  </div>
-
-  <!-- Library Section -->
-  <div class="flex-1 flex flex-col bg-[#121212] rounded-lg p-4 gap-4 overflow-hidden">
-    <div class="flex items-center justify-between text-[#b3b3b3]">
-      <span class="font-bold text-base hover:text-white transition-colors cursor-pointer">Bibliothèque</span>
-      <button routerLink="/add" class="hover:bg-[#2a2a2a] p-1 rounded-full text-white transition-colors"
-        title="Ajouter un son">
-        <span class="text-xl font-light">+</span>
-      </button>
+    <!-- Logo -->
+    <div class="mb-2">
+        <h1 class="text-2xl font-bold tracking-tighter text-white">MusicStream</h1>
     </div>
 
-    <!-- Scrollable Library Content (Placeholder/Scalable) -->
-    <div class="flex-1 overflow-y-auto mt-2">
-      <div class="flex flex-col gap-3">
-        <!-- Example Playlists items would go here, leaving empty for now as requested text-only -->
-        <div class="p-3 bg-[#1e1e1e] rounded-md hover:bg-[#282828] cursor-pointer transition-colors group">
-          <p class="font-bold text-white mb-1">Titres likés</p>
-          <p class="text-xs text-[#b3b3b3]">Playlist • 32 titres</p>
+    <!-- Main Navigation -->
+    <div class="flex flex-col gap-4 bg-[#121212] p-4 rounded-lg">
+        <a routerLink="/home" routerLinkActive="text-white brightness-125"
+           class="flex items-center gap-4 text-[#b3b3b3] hover:text-white transition-colors duration-200 font-bold text-base">
+            <span>Accueil</span>
+        </a>
+
+        @if (isAdmin) {
+            <a routerLink="/add-track" routerLinkActive="text-white brightness-125"
+               class="flex items-center gap-4 text-[#b3b3b3] hover:text-white transition-colors duration-200 font-bold text-base">
+                <span>add a track</span>
+            </a>
+        }
+    </div>
+
+    <!-- Library Section -->
+    <div class="flex-1 flex flex-col bg-[#121212] rounded-lg p-4 gap-4 overflow-hidden">
+        <div class="flex items-center justify-between text-[#b3b3b3]">
+            <span class="font-bold text-base hover:text-white transition-colors cursor-pointer">Bibliothèque</span>
+            <button routerLink="/add" class="hover:bg-[#2a2a2a] p-1 rounded-full text-white transition-colors"
+                    title="Ajouter un son">
+                <span class="text-xl font-light">+</span>
+            </button>
         </div>
-      </div>
+
+        <!-- Scrollable Library Content (Placeholder/Scalable) -->
+        <div class="flex-1 overflow-y-auto mt-2">
+            <div class="flex flex-col gap-3">
+                <!-- Example Playlists items would go here, leaving empty for now as requested text-only -->
+                <div class="p-3 bg-[#1e1e1e] rounded-md hover:bg-[#282828] cursor-pointer transition-colors group">
+                    <p class="font-bold text-white mb-1">Titres likés</p>
+                    <p class="text-xs text-[#b3b3b3]">Playlist • 32 titres</p>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </nav>
