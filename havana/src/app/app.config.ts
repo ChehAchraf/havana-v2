@@ -9,13 +9,18 @@ import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { AuthEffects } from './store/effects/auth.effects';
 import { authFeature } from './store/reducers/auth.reducer';
+import { TrackEffects } from './store/effects/track.effects';
+import { trackFeature } from './store/reducers/track.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes), provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
-    provideStore({ auth: authFeature.reducer }),
-    provideEffects([AuthEffects])
+    provideStore({
+      auth: authFeature.reducer,
+      track: trackFeature.reducer
+    }),
+    provideEffects([AuthEffects, TrackEffects])
   ]
 };

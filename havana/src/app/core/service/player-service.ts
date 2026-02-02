@@ -18,14 +18,14 @@ export class PlayerService {
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
-        this.audio = new Audio();
-        this.audio.ontimeupdate = () => {
+      this.audio = new Audio();
+      this.audio.ontimeupdate = () => {
         this.currentTime.set(this.audio!.currentTime);
       };
-        this.audio.onloadedmetadata = ()=>{
-          this.duration.set(this.audio!.duration);
-        }
-        this.audio.onended = () => {
+      this.audio.onloadedmetadata = () => {
+        this.duration.set(this.audio!.duration);
+      }
+      this.audio.onended = () => {
         this.isPlaying.set(false);
 
       }
@@ -40,8 +40,23 @@ export class PlayerService {
 
   playTrack(track: Track) {
     if (!this.audio) return;
+
+    if (!track.file && !track.filePath) {
+      return;
+    }
+
     this.currentTrack.set(track);
-    const url = URL.createObjectURL(track.file);
+    let url: string;
+
+    if (track.filePath) {
+      url = `http://localhost:8080/api/tracks/file/${track.filePath}`;
+    } else if (typeof track.file === 'string') {
+      url = `http://localhost:8080/api/tracks/file/${track.file}`;
+    } else if (track.file instanceof Blob || (track.file as any) instanceof File) {
+      url = URL.createObjectURL(track.file as Blob);
+    } else {
+      return;
+    }
 
     this.audio.src = url;
     this.audio.load()

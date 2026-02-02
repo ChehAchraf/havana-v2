@@ -20,7 +20,7 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private store = inject(Store);
 
-  // Selectors
+
   loading$ = this.store.select(selectLoading);
   error$ = this.store.select(selectError);
 

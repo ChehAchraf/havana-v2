@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {Track} from '../models/track.model';
+import { Track } from '../models/track.model';
 
 @Injectable({
     providedIn: 'root',
@@ -31,7 +31,7 @@ export class TrackService {
 
         let coverFile: File | undefined = undefined;
         if (track.cover && track.cover instanceof File) {
-             coverFile = track.cover;
+            coverFile = track.cover;
         }
 
         return this.saveTrack(trackData, audioFile, coverFile);
@@ -57,8 +57,25 @@ export class TrackService {
         return this.http.delete<void>(`${this.apiUrl}/${id}`);
     }
 
-    updateTrack(id: number, trackData: any): Observable<Track> {
+    updateTrack(id: number, track: Partial<Track>): Observable<Track> {
+        const currFile = track.file instanceof File ? track.file : undefined;
+        const currCover = track.cover instanceof File ? track.cover : undefined;
 
-        return new Observable();
+        const { file, cover, ...trackData } = track;
+
+        const formData = new FormData();
+        formData.append('track', new Blob([JSON.stringify(trackData)], {
+            type: 'application/json'
+        }));
+
+        if (currFile) {
+            formData.append('audioFile', currFile);
+        }
+
+        if (currCover) {
+            formData.append('coverFile', currCover);
+        }
+
+        return this.http.put<Track>(`${this.apiUrl}/${id}`, formData);
     }
 }

@@ -5,6 +5,10 @@ import { TrackService } from '../../../core/service/track.service';
 import { Router } from '@angular/router';
 import { Track } from '../../../core/models/track.model';
 import { NgIcon } from '@ng-icons/core';
+import { Store } from '@ngrx/store';
+import { TrackActions } from '../../../store/actions/track.actions';
+import { selectError, selectLoading } from '../../../store/reducers/track.reducer';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-add-track',
@@ -15,10 +19,11 @@ import { NgIcon } from '@ng-icons/core';
 export class AddTrackComponent {
 
   private fb = inject(FormBuilder)
-  private trackService = inject(TrackService)
-  private router = inject(Router)
+  private store = inject(Store)
 
-  isSubmiting = signal(false);
+  isSubmiting = toSignal(this.store.select(selectLoading));
+  error = toSignal(this.store.select(selectError));
+
   fileError = signal<string>('')
 
   trackForm = this.fb.group({
@@ -67,8 +72,6 @@ export class AddTrackComponent {
   async onSubmit() {
     if (this.trackForm.invalid || !this.selectedFile) return;
 
-    this.isSubmiting.set(true);
-
     const newTrack: Track = {
       title: this.trackForm.value.title!,
       artist: this.trackForm.value.artist!,
@@ -79,16 +82,7 @@ export class AddTrackComponent {
       createdAt: new Date()
     };
 
-    this.trackService.addTrack(newTrack).subscribe({
-      next: () => {
-        this.isSubmiting.set(false);
-        this.router.navigate(['/home']);
-      },
-      error: (err) => {
-        console.error('Error adding track', err);
-        this.isSubmiting.set(false);
-      }
-    });
+    this.store.dispatch(TrackActions.addTrack({ track: newTrack }));
   }
 
 }

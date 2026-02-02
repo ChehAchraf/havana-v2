@@ -8,8 +8,8 @@ import { TrackService } from '../../../../core/service/track.service';
 import { PlayerService } from '../../../../core/service/player-service';
 import { Track } from '../../../../core/models/track.model';
 
-import { TrackActions} from '../../../../store/actions/track.actions';
-import { selectTracks, selectLoading} from '../../../../store/reducers/track.reducer';
+import { TrackActions } from '../../../../store/actions/track.actions';
+import { selectTracks, selectLoading, selectTotalPages } from '../../../../store/reducers/track.reducer';
 
 import { DurationFormatPipe } from '../../../../shared/pipes/duration-format-pipe-pipe';
 import { SearchInput } from '../../../../shared/components/ui/search-input/search-input';
@@ -34,6 +34,7 @@ export class TrackList implements OnInit {
 
     tracks$: Observable<Track[]> = this.store.select(selectTracks);
     loading$: Observable<boolean> = this.store.select(selectLoading);
+    totalPages$: Observable<number> = this.store.select(selectTotalPages);
 
     currentPage: number = 0;
     currentSearch: string = '';
@@ -100,13 +101,11 @@ export class TrackList implements OnInit {
 
     saveEdit() {
         if (this.editingTrack.title && this.editingTrack.artist && this.editingTrack.id) {
-            this.trackService.updateTrack(this.editingTrack.id, this.editingTrack).subscribe({
-                next: () => {
-                    this.isEditModalOpen = false;
-                    this.loadTracks();
-                },
-                error: (err) => console.error('Erreur de modification:', err)
-            });
+            this.store.dispatch(TrackActions.updateTrack({
+                id: this.editingTrack.id,
+                track: this.editingTrack
+            }));
+            this.isEditModalOpen = false;
         }
     }
 }

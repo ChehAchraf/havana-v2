@@ -5,7 +5,7 @@ import { Player } from "./shared/components/ui/player/player";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Sidebar, Player],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

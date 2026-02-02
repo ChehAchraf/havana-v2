@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,6 +35,7 @@ public class TrackController {
         return ResponseEntity.ok(trackService.getAllTracks(search, pageable));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<TrackDTO> createTrack(
             @RequestPart("track") TrackDTO trackDTO,
@@ -42,7 +44,7 @@ public class TrackController {
     ) throws IOException {
         return ResponseEntity.ok(trackService.saveTrack(trackDTO, audioFile, coverFile));
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<TrackDTO> updateTrack(
             @PathVariable Long id,
@@ -52,7 +54,7 @@ public class TrackController {
     ) throws IOException {
         return ResponseEntity.ok(trackService.saveTrack(trackDTO, audioFile, coverFile));
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTrack(@PathVariable Long id) {
         trackService.deleteTrack(id);
