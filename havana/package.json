@@ -38,6 +38,7 @@
     "@ngrx/store": "^21.0.1",
     "express": "^5.1.0",
     "idb": "^8.0.3",
+    "jasmine": "^6.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
@@ -47,6 +48,7 @@
     "@angular/compiler-cli": "^21.0.0",
     "@tailwindcss/postcss": "^4.1.12",
     "@types/express": "^5.0.1",
+    "@types/jasmine": "^6.0.0",
     "@types/node": "^20.17.19",
     "jsdom": "^27.1.0",
     "postcss": "^8.5.3",
