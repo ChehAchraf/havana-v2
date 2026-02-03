@@ -2,10 +2,13 @@
 
 <div class="h-full flex items-center justify-between px-4">
 
-   <!-- Left: Current Song Info -->
    <div class="flex items-center gap-4 w-[30%]">
-      <div class="w-14 h-14 bg-gray-800 rounded flex items-center justify-center">
+      <div class="relative w-14 h-14 bg-gray-800 rounded flex items-center justify-center overflow-hidden">
+         @if(track.coverPath) {
+         <img [src]="'http://localhost:8080/api/tracks/file/' + track.coverPath" class="w-full h-full object-cover">
+         } @else {
          <i class="fas fa-music text-gray-400"></i>
+         }
       </div>
       <div>
          <div class="text-white text-sm font-semibold">{{ track.title }}</div>
@@ -13,9 +16,8 @@
       </div>
    </div>
 
-   <!-- Center: Controls and Progress -->
    <div class="flex flex-col items-center gap-2 w-[40%]">
-      <!-- Control Buttons -->
+
       <div class="flex items-center gap-6 mb-1">
          <button (click)="audioService.previous()" class="text-gray-400 hover:text-white transition-colors">
             <i class="fas fa-step-backward text-lg"></i>

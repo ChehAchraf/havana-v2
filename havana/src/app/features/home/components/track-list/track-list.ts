@@ -89,21 +89,36 @@ export class TrackList implements OnInit {
         }
     }
 
+    editingCover: File | null = null;
+
     openEditModal(track: any, event: Event) {
         event.stopPropagation();
         this.isEditModalOpen = true;
         this.editingTrack = { ...track };
+        this.editingCover = null;
     }
 
     closeEditModal() {
         this.isEditModalOpen = false;
+        this.editingCover = null;
+    }
+
+    onEditCoverSelected(target: EventTarget | null) {
+        const input = target as HTMLInputElement;
+        if (!input.files || input.files.length === 0) return;
+        this.editingCover = input.files[0];
     }
 
     saveEdit() {
         if (this.editingTrack.title && this.editingTrack.artist && this.editingTrack.id) {
+            const updatePayload: any = { ...this.editingTrack };
+            if (this.editingCover) {
+                updatePayload.cover = this.editingCover;
+            }
+
             this.store.dispatch(TrackActions.updateTrack({
                 id: this.editingTrack.id,
-                track: this.editingTrack
+                track: updatePayload
             }));
             this.isEditModalOpen = false;
         }

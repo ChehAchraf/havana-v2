@@ -36,6 +36,7 @@ export class AddTrackComponent {
   })
 
   selectedFile: File | null = null;
+  selectedCover: File | null = null;
   fileDuration: number = 0;
 
   onFileSelected(target: EventTarget | null) {
@@ -62,6 +63,12 @@ export class AddTrackComponent {
     }
   }
 
+  onCoverSelected(target: EventTarget | null) {
+    const input = target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+    this.selectedCover = input.files[0];
+  }
+
   private calculateDuration(file: File) {
     const audio = new Audio();
     audio.src = URL.createObjectURL(file);
@@ -82,6 +89,7 @@ export class AddTrackComponent {
       genre: this.trackForm.value.genre!,
       duration: this.fileDuration,
       file: this.selectedFile,
+      cover: this.selectedCover || undefined,
       createdAt: new Date()
     };
 
