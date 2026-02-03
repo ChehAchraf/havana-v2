@@ -21,8 +21,10 @@ export class AddTrackComponent {
   private fb = inject(FormBuilder)
   private store = inject(Store)
 
-  isSubmiting = toSignal(this.store.select(selectLoading));
-  error = toSignal(this.store.select(selectError));
+
+
+  isSubmiting = toSignal(this.store.select(selectLoading), { initialValue: false });
+  error = toSignal(this.store.select(selectError), { initialValue: null });
 
   fileError = signal<string>('')
 
@@ -36,7 +38,8 @@ export class AddTrackComponent {
   selectedFile: File | null = null;
   fileDuration: number = 0;
 
-  onFileSelected(input: HTMLInputElement) {
+  onFileSelected(target: EventTarget | null) {
+    const input = target as HTMLInputElement;
     if (!input.files || input.files.length === 0) return;
 
     const file = input.files[0];
@@ -50,7 +53,7 @@ export class AddTrackComponent {
 
       const validTypes = ['audio/mpeg', 'audio/wav', 'audio/ogg'];
       if (!validTypes.includes(file.type)) {
-        this.fileError.set('Invalid file format. Only MP3, WAV, OGG allowed.');
+        this.fileError.set(`Invalid file format: ${file.type}. Only MP3, WAV, OGG allowed.`);
         return;
       }
 
@@ -76,8 +79,8 @@ export class AddTrackComponent {
       title: this.trackForm.value.title!,
       artist: this.trackForm.value.artist!,
       description: this.trackForm.value.description || '',
-      music_category: this.trackForm.value.genre!,
-      song_duration: this.fileDuration,
+      genre: this.trackForm.value.genre!,
+      duration: this.fileDuration,
       file: this.selectedFile,
       createdAt: new Date()
     };
