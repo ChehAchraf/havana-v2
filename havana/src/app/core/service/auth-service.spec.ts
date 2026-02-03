@@ -43,8 +43,8 @@ describe('AuthService', ()=>{
         const mockCredentials: LoginRequest = { email: 'test@mail.com', password: '123' };
         const mockResponse: AuthResponse = {
             token: 'fake-jwt-token',
-            role: 'USER',       // <--- زدنا هادي
-            email: 'test@mail.com' // <--- وهادي
+            role: 'USER',       
+            email: 'test@mail.com' 
         };
 
         service.login(mockCredentials).subscribe(response => {
