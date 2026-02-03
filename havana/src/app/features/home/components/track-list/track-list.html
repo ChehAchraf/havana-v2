@@ -24,7 +24,7 @@
     @if (tracks$ | async; as tracks) {
 
     @for (track of tracks; track track.id) {
-    <div (click)="playTrack(track)"
+    <div (click)="playTrack(track, tracks)"
         class="group grid grid-cols-12 items-center px-4 py-3 rounded-md hover:bg-white/10 transition-colors duration-200 cursor-pointer text-sm text-[#b3b3b3] hover:text-white border-b border-transparent hover:border-[#282828]">
 
         <div class="col-span-1 relative flex justify-center text-base">

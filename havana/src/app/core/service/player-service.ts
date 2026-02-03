@@ -38,8 +38,14 @@ export class PlayerService {
     }
   }
 
-  playTrack(track: Track) {
+  playlist = signal<Track[]>([]);
+
+  playTrack(track: Track, playlist?: Track[]) {
     if (!this.audio) return;
+
+    if (playlist) {
+      this.playlist.set(playlist);
+    }
 
     if (!track.file && !track.filePath) {
       return;
@@ -73,6 +79,28 @@ export class PlayerService {
     if (!this.audio) return;
     this.audio.pause();
     this.isPlaying.set(false);
+  }
+
+  next() {
+    const current = this.currentTrack();
+    const list = this.playlist();
+    if (!current || list.length === 0) return;
+
+    const index = list.findIndex(t => t.id === current.id);
+    if (index !== -1 && index < list.length - 1) {
+      this.playTrack(list[index + 1]);
+    }
+  }
+
+  previous() {
+    const current = this.currentTrack();
+    const list = this.playlist();
+    if (!current || list.length === 0) return;
+
+    const index = list.findIndex(t => t.id === current.id);
+    if (index > 0) {
+      this.playTrack(list[index - 1]);
+    }
   }
 
   toggle() {

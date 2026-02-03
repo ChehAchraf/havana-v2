@@ -71,8 +71,8 @@ export class TrackList implements OnInit {
         }
     }
 
-    playTrack(track: Track) {
-        this.playerService.playTrack(track);
+    playTrack(track: Track, tracks: Track[]) {
+        this.playerService.playTrack(track, tracks);
     }
 
     delete(id: number | undefined, event: Event) {
